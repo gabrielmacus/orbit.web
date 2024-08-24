@@ -1,10 +1,11 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { HomePage } from './pages/Home.page';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import MeetingPage from './features/meetings/MeetingPage';
 
-const router = createBrowserRouter([
+
+const router = createHashRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <MeetingPage />,
   },
 ]);
 
