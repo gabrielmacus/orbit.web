@@ -24,9 +24,11 @@
     "@mantine/form": "^7.12.1",
     "@mantine/hooks": "7.12.1",
     "@tabler/icons-react": "^3.14.0",
+    "@tanstack/react-form": "^0.31.0",
     "@tanstack/react-query": "^5.52.2",
     "@tanstack/react-query-devtools": "^5.52.2",
     "@tanstack/react-table": "^8.20.5",
+    "@tanstack/zod-form-adapter": "^0.31.0",
     "axios": "^1.7.5",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
@@ -36,7 +38,9 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "sass": "^1.77.8",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.1.10",

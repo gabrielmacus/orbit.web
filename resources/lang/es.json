@@ -1,5 +1,14 @@
 {
     "date.format": "DD/MM/YYYY",
-    
-    "table.noRecords":"Sin registros"
+    "table.noRecords": "Sin registros",
+    "form.search": "Buscar",
+    "form.resetSearch": "Limpiar",
+
+    "validation.required": "Campo requerido",
+    "validation.min": "Ingrese un número a partir de {{number}}",
+    "validation.minLength" : "El valor debe tener un largo mínimo de {{value}} caracteres",
+
+    "model.id": "Id",
+    "model.name": "Nombre",
+    "model.surname":"Apellido"
 }

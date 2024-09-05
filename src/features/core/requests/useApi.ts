@@ -23,13 +23,18 @@ export interface ODataResponse<T> {
     value: T
 }
 
+export type GroupResponse<T> = T & {
+    $count: number
+}
+
 export type CreateOperation<T> = {
     create: (data: T, multipart?: boolean) => Promise<ODataResponse<T>>
 }
 
-export interface ReadOperation<T> {
-    read: (query?: Query, extraQs?: string[], path?: string) => Promise<ODataResponse<T[]>>
-    readById: (id: number, query?: Query) => Promise<T>
+export interface ReadOperation {
+    //read: (query?: Query, extraQs?: string[], path?: string) => Promise<ODataResponse<T[]>>
+    read: <T>(query?: Query, extraQs?: string[], path?: string) => Promise<T>
+    readById: <T>(id: number, query?: Query) => Promise<T>
 }
 
 export interface UpdateOperation<T> {
@@ -40,7 +45,7 @@ export interface DeleteOperation {
     deleteById: (id: number) => Promise<void>
 }
 
-export interface Api<T> extends CreateOperation<T>, ReadOperation<T>, UpdateOperation<T>, DeleteOperation {
+export interface Api<T> extends CreateOperation<T>, ReadOperation, UpdateOperation<T>, DeleteOperation {
     axiosInstance: AxiosInstance
 }
 
@@ -70,7 +75,7 @@ export default function useApi<T>(props: ApiProps): Api<T> {
             qs.push(`$top=${query.$top}`);
         }
 
-        if (query.$orderby != undefined) {
+        if (query.$orderby != undefined && query.$orderby.length > 0) {
             qs.push(`$orderby=${query.$orderby.join(",")}`);
         }
         /*
@@ -106,15 +111,15 @@ export default function useApi<T>(props: ApiProps): Api<T> {
                     headers: { 'Content-Type': contentType }
                 }).then(r => r.data)
         },
-        read(query?: Query, extraQs?: string[], path?: string) {
+        read<T>(query?: Query, extraQs?: string[], path?: string) {
             let qs = queryToString(query ?? {})
             if (extraQs && extraQs.length) {
                 qs += `&${extraQs.join("&")}`
             }
             const url = path ? `odata/${props.feature}/${path}?${qs}` : `odata/${props.feature}?${qs}`
-            return axiosInstance.get<ODataResponse<T[]>>(url).then(r => r.data)
+            return axiosInstance.get<T>(url).then(r => r.data)
         },
-        readById(id: number, query?: Query) {
+        readById<T>(id: number, query?: Query) {
             const qs = queryToString(query ?? {})
             const url = `odata/${props.feature}/${id}?${qs}`
             return axiosInstance.get<T>(url).then(r => r.data)

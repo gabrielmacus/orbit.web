@@ -1,5 +1,6 @@
 import { AppShell, Burger } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks";
+import ColorSchemeToggler from "../misc/ColorSchemeToggler";
 
 export interface AdminLayoutProps {
     children: React.ReactNode
@@ -25,6 +26,7 @@ export default function AdminLayout(props: AdminLayoutProps) {
                 size="sm"
             />
             <div>Logo</div>
+            <ColorSchemeToggler />
         </AppShell.Header>
         <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
 
