@@ -65,9 +65,11 @@ export default function PublishersListPage() {
         })
     ], [])
     
+    
     return <AdminLayout>
         <ServerDataTable
             api={api}
+            //@ts-ignore
             columnsDefs={columns}
             options={{
                 withTableBorder:true, 

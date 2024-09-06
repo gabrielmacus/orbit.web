@@ -31,10 +31,10 @@ export type CreateOperation<T> = {
     create: (data: T, multipart?: boolean) => Promise<ODataResponse<T>>
 }
 
-export interface ReadOperation {
+export interface ReadOperation<T> {
     //read: (query?: Query, extraQs?: string[], path?: string) => Promise<ODataResponse<T[]>>
-    read: <T>(query?: Query, extraQs?: string[], path?: string) => Promise<T>
-    readById: <T>(id: number, query?: Query) => Promise<T>
+    read: (query?: Query, extraQs?: string[], path?: string) => Promise<ODataResponse<T[]>>
+    readById: (id: number, query?: Query) => Promise<T>
 }
 
 export interface UpdateOperation<T> {
@@ -45,7 +45,7 @@ export interface DeleteOperation {
     deleteById: (id: number) => Promise<void>
 }
 
-export interface Api<T> extends CreateOperation<T>, ReadOperation, UpdateOperation<T>, DeleteOperation {
+export interface Api<T> extends CreateOperation<T>, ReadOperation<T>, UpdateOperation<T>, DeleteOperation {
     axiosInstance: AxiosInstance
 }
 

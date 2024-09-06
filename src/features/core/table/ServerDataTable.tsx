@@ -7,9 +7,9 @@ import { TableProps } from "@mantine/core"
 
 export interface ServerDataTableProps<T> {
     columnsDefs: ColumnDef<T>[]
-    api: ReadOperation
     initialState?: InitialTableState
-    options?: TableProps
+    options?: TableProps,
+    api: ReadOperation<T>
 }
 
 export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
@@ -40,25 +40,19 @@ export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
             undefined
     }
 
-    console.log(tableState.grouping)
-
     const query = useQuery({
         //initialData: { value: [] },
         queryKey: ['publishers', apiQuery],
-        queryFn: () => props.api.read<ODataResponse<T[]> | GroupResponse<T>[]>
-            (apiQuery),
+        queryFn: () => props.api.read(apiQuery),
         placeholderData: keepPreviousData
     })
-    
+
     const data = useMemo(() => {
-        if (query.data && 'value' in query.data) return query.data.value
-        if(query.data && '$count' in query.data) return query.data
-        return []
+        return query.data?.value ?? []
     }, [query.data])
 
     const rowCount = useMemo(() => {
-        if (query.data && 'value' in query.data) return query.data["@odata.count"]
-        return undefined
+        return query.data?.["@odata.count"]
     }, [query.data])
 
     table.setOptions(prev => ({

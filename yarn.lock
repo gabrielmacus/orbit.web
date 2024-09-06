@@ -10601,6 +10601,7 @@ __metadata:
     jsdom: "npm:^24.1.0"
     mantine-datatable: "npm:^7.11.3"
     object-to-formdata: "npm:^4.5.1"
+    odata-query: "npm:^7.0.6"
     postcss: "npm:^8.4.41"
     postcss-preset-mantine: "npm:1.17.0"
     postcss-simple-vars: "npm:^7.0.1"
@@ -11301,6 +11302,15 @@ __metadata:
     define-properties: "npm:^1.2.1"
     es-object-atoms: "npm:^1.0.0"
   checksum: 10c0/15809dc40fd6c5529501324fec5ff08570b7d70fb5ebbe8e2b3901afec35cf2b3dc484d1210c6c642cd3e7e0a5e18dd1d6850115337fef46bdae14ab0cb18ac3
+  languageName: node
+  linkType: hard
+
+"odata-query@npm:^7.0.6":
+  version: 7.0.6
+  resolution: "odata-query@npm:7.0.6"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/2562699607c18425f9d5b236d3eac2425570239a6fb84aaedae2c0002de10faa238b42955d1db31dcceadf9e09575fc514a0f02afbc951ac356fc0e4536ba4f2
   languageName: node
   linkType: hard
 
