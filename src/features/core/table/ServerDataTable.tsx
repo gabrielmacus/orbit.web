@@ -1,9 +1,10 @@
 import { ColumnDef, getCoreRowModel, InitialTableState, TableState, useReactTable } from "@tanstack/react-table"
 import DataTable from "./DataTable"
 import { useMemo, useState } from "react"
-import { GroupResponse, ODataResponse, Query, ReadOperation } from "../requests/useApi"
+import { GroupResponse, ODataResponse, ReadOperation } from "../requests/useApi"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { TableProps } from "@mantine/core"
+import { QueryOptions } from "odata-query"
 
 export interface ServerDataTableProps<T> {
     columnsDefs: ColumnDef<T>[]
@@ -29,7 +30,26 @@ export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
         ...table.initialState,
     })
 
-    const apiQuery: Query = {
+    const apiQuery: Partial<QueryOptions<T>> = {
+        filter: tableState.columnFilters.map(f => f.value).flat(1) as string[],
+        orderBy: tableState.sorting.map(s => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(','),
+        top: tableState.pagination.pageSize,
+        skip: tableState.pagination.pageIndex * tableState.pagination.pageSize,
+        count: true,
+        transform: tableState.grouping.length > 0 ? {
+            groupBy: {
+                properties: tableState.grouping,
+                transform: {
+                    aggregate: {
+                        $count: {
+                            as: '$count'
+                        }
+                    }
+                }
+            }
+        } : undefined
+
+        /*
         $filter: tableState.columnFilters.map(f => f.value).flat(1) as string[],
         $orderby: tableState.sorting.map(s => `${s.id} ${s.desc ? 'desc' : 'asc'}`),
         $top: tableState.pagination.pageSize,
@@ -37,7 +57,7 @@ export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
         $count: true,
         $apply: tableState.grouping.length > 0 ?
             [`groupby((${tableState.grouping.join(',')}),aggregate($count as $count))`] :
-            undefined
+            undefined*/
     }
 
     const query = useQuery({

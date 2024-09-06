@@ -3,16 +3,16 @@ import { IconRefresh, IconSearch } from "@tabler/icons-react"
 import { FormApi, ReactFormApi, useForm } from "@tanstack/react-form"
 import { Column } from "@tanstack/react-table"
 import { useTranslation } from "react-i18next"
-import { Query } from "../requests/useApi"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { useFilterPopoverContext } from "./DataTable"
+import { Filter } from "odata-query"
 
 export interface ColumnFiltersProps<TFilter, TData, TValue> {
     column: Column<TData, TValue>,
     children: (form: FormApi<Partial<TFilter>, ReturnType<typeof zodValidator>> &
         ReactFormApi<Partial<TFilter>, ReturnType<typeof zodValidator>>) => React.ReactNode
-    filterParser: (value: TFilter) => string[]
-    onSubmit?: (parsedFilter: string[]) => any
+    filterParser: (value: TFilter) => Filter<TData>
+    onSubmit?: (parsedFilter: Filter<TData>) => any
 }
 
 export default function ColumnFilter<TFilter, TData, TValue>(props: ColumnFiltersProps<TFilter, TData, TValue>) {
