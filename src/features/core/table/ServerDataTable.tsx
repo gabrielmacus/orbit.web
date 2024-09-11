@@ -5,15 +5,22 @@ import { GroupResponse, ODataResponse, ReadOperation } from "../requests/useApi"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { TableProps } from "@mantine/core"
 import { QueryOptions } from "odata-query"
+import { useTranslation } from "react-i18next"
+import { IconExclamationCircleFilled, IconPlus, IconRefresh } from "@tabler/icons-react"
 
 export interface ServerDataTableProps<T> {
     columnsDefs: ColumnDef<T>[]
     initialState?: InitialTableState
     options?: TableProps,
     api: ReadOperation<T>
+    actions?: { icon?: React.ReactNode, label?: string, action: () => any }[]
+    title?: string
+    allowRefresh?: boolean
+    queryKey:string
 }
 
 export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
+    const { t } = useTranslation()
     const table = useReactTable({
         columns: props.columnsDefs,
         data: [],
@@ -48,21 +55,10 @@ export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
                 }
             }
         } : undefined
-
-        /*
-        $filter: tableState.columnFilters.map(f => f.value).flat(1) as string[],
-        $orderby: tableState.sorting.map(s => `${s.id} ${s.desc ? 'desc' : 'asc'}`),
-        $top: tableState.pagination.pageSize,
-        $skip: tableState.pagination.pageIndex * tableState.pagination.pageSize,
-        $count: true,
-        $apply: tableState.grouping.length > 0 ?
-            [`groupby((${tableState.grouping.join(',')}),aggregate($count as $count))`] :
-            undefined*/
     }
 
     const query = useQuery({
-        //initialData: { value: [] },
-        queryKey: ['publishers', apiQuery],
+        queryKey: [props.queryKey, apiQuery],
         queryFn: () => props.api.read(apiQuery),
         placeholderData: keepPreviousData
     })
@@ -99,9 +95,22 @@ export default function ServerDataTable<T>(props: ServerDataTableProps<T>) {
             state: tableState
         }
     }))
+    const loading = query.isFetching
+    const actions = [...(props.actions ?? []), ...[
+        props.allowRefresh == undefined || props.allowRefresh == true ? {
+            icon: <IconRefresh />,
+            action: () => query.refetch(),
+            disabled: loading
+        } : undefined
+    ]].filter(a => a != undefined)
 
     return <DataTable
+        loading={loading}
         options={props.options}
         table={table}
+        emptyMessage={query.isError ? t(`request.error.${query.error!.message}`) : undefined}
+        emptyIcon={query.isError ? <IconExclamationCircleFilled size={32} /> : undefined}
+        title={props.title}
+        actions={actions}
     />
 }

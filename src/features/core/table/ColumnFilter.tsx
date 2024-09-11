@@ -51,7 +51,7 @@ export default function ColumnFilter<TFilter, TData, TValue>(props: ColumnFilter
                 onClick={resetSearch}
                 rightSection={<IconRefresh size={13} />}
             >
-                {t('form.resetSearch')}
+                {t('form.reset')}
             </Button>
             <Button size="xs"
                 type="submit"

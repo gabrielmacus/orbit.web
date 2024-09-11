@@ -16,6 +16,7 @@ export default function PublishersListPage() {
     const api = usePublishersApi()
     const columns = useMemo(() => [
         columnHelper.accessor('Id', {
+            enableGrouping: false,
             meta: {
                 filterContent: (column) => <SimpleColumnFilter
                     column={column}
@@ -62,17 +63,23 @@ export default function PublishersListPage() {
                     }}
                 />
             }
+        }),
+        //@ts-expect-error
+        columnHelper.accessor('$count', {
+            enableGrouping: false
         })
     ], [])
-    
-    
+
+
     return <AdminLayout>
         <ServerDataTable
             api={api}
+            title={t('table.title.publishers')}
+            queryKey="publishers"
             //@ts-ignore
             columnsDefs={columns}
             options={{
-                withTableBorder:true, 
+                withTableBorder: true,
                 striped: true,
                 highlightOnHover: true,
             }}

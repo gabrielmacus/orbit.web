@@ -1,14 +1,23 @@
 {
     "date.format": "DD/MM/YYYY",
-    "table.noRecords": "Sin registros",
+
     "form.search": "Buscar",
-    "form.resetSearch": "Limpiar",
+    "form.reset": "Limpiar",
+    "form.save":"Guardar",
 
     "validation.required": "Campo requerido",
     "validation.min": "Ingrese un número a partir de {{number}}",
-    "validation.minLength" : "El valor debe tener un largo mínimo de {{value}} caracteres",
+    "validation.minLength" : "El valor debe tener un largo mínimo de {{value}} caracter/es",
+    "validation.maxLength" : "El valor debe tener un largo maximo de {{value}} caracter/es",
 
     "model.id": "Id",
     "model.name": "Nombre",
-    "model.surname":"Apellido"
+    "model.surname":"Apellido",
+
+    "table.empty":"No hay datos para mostrar",
+    "table.noRecords": "Sin registros",
+    
+    "request.error.Network Error":"Error al conectarse con el servidor",
+
+    "table.title.publishers":"Publicadores"
 }
